@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+  <title>Registration Form</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body>
+  <h1 class="register-title">Welcome</h1>
+  <form id="form_submit" class="register" action="#">
+    <div class="register-switch">
+      <input type="radio" name="switcher" value="Search" id="sec_search" class="register-switch-input" checked>
+      <label for="sec_search" class="register-switch-label">Search</label>
+      <input type="radio" name="switcher" value="Register" id="sec_register" class="register-switch-input">
+      <label for="sec_register" class="register-switch-label">Register</label>
+    </div>
+    <div id="search_donor" class="sec-div active ">
+        <input type="text" name="bg" class="register-input" placeholder="Select Bloodgroup">
+        <input type="text" name="cityZip" class="register-input" placeholder="City/ZIP">
+        <input type="text" name="nearby" class="register-input" placeholder="Nearby">
+        <input type="button" id="search_btn" value="Search" class="register-button">
+    </div>
+    <div id="register_donor" class="sec-div">
+        <input type="text" class="register-input" placeholder="Bloodgroup">
+        <input type="text" class="register-input" placeholder="Name">
+        <input type="text" class="register-input" placeholder="City">
+        <input type="text" class="register-input" placeholder="Contact/Mobile">
+        <input type="text" class="register-input" placeholder="City/ZIP">
+        <input type="text" class="register-input" placeholder="Email address">
+        <input type="text" class="register-input" placeholder="Nearby">
+        <input type="button" id="register_btn" value="Register" class="register-button">
+    </div>
+  </form>
+  <script>  
+    var switchers = document.getElementsByName("switcher");
+    var myFunction = function() {
+        var attribute = this.getAttribute("value");
+        switch(attribute){
+            case 'Search':
+                search_donor.classList.add('active');
+                register_donor.classList.remove('active');
+                break;
+            case 'Register':
+                register_donor.classList.add('active');
+                search_donor.classList.remove('active');
+                break;
+        }
+    };
+    Array.from(switchers).forEach(function(element) {
+        element.addEventListener('click', myFunction);
+    });
+
+    search_btn.onclick = function(){
+        let inputs = document.querySelectorAll('#search_donor input[type="text"]');
+        let data = "";
+        Array.from(inputs).forEach(function(el) {
+             data += el.name+'='+el.value+"&";
+         });
+        console.log("data is ", data);
+         let url = "http://www.onsgrocery.com/code/search-bg.php";
+        fetch(url,{
+            body:data,
+            method:"POST"
+        }).then(function(response) {
+            return response.json();
+        }).then(function(myjson) {
+           console.log(myjson);
+        })
+    }
+    register_btn.onclick = function(){
+        console.log("data is register");
+    }
+  </script>
+
+</body>
+</html>
